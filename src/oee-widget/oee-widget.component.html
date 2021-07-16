@@ -1,0 +1,68 @@
+<c8y-loading *ngIf="loadingEquipment"></c8y-loading>
+
+<ng-container *ngIf="!loadingEquipment">
+  <ng-container *ngIf="equipment && profile; else missingData">
+    <header>
+      <span class="title">
+        <strong>{{ profile.type | translate }} | {{ profile.deviceName }} - {{ profile.name }},</strong>
+        {{ profile.locationId }}
+      </span>
+      <!-- TODO set child data info -->
+      <span *ngIf="equipment.hierarchy && equipment.hierarchy.length" class="details">
+        {{ 'All lines' | translate }} ({{ equipment.hierarchy.length }})
+      </span>
+    </header>
+
+    <main>
+      <section *ngIf="aggregatedOee">
+        <span class="title">{{ aggregatedOee.title | translate }}</span>
+        <div>
+          <span class="oee">
+            <strong class="current">{{ aggregatedOee.current }}</strong
+            >/<span class="target">{{ aggregatedOee.target }}</span>
+            <span class="unit">%</span>
+          </span>
+          <oee-trend [trend]="aggregatedOee.trend"></oee-trend>
+        </div>
+      </section>
+
+      <table *ngIf="config.showDetails" [class.no-chart]="!config.showChart">
+        <ng-container *ngFor="let item of oeeDetails">
+          <tr *ngIf="item">
+            <td width="1">{{ item?.title | translate }}</td>
+            <td width="1" class="oee">
+              <strong>{{ item.current }}</strong
+              >/{{ item.target }} %
+            </td>
+            <td width="24" class="target">
+              <oee-trend [trend]="item.trend"></oee-trend>
+            </td>
+            <td *ngIf="config.showChart">
+              <oee-bar [item]="item"></oee-bar>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </main>
+
+    <aside *ngIf="config.showCountdown" [style.width]="countdownPercent"></aside>
+  </ng-container>
+
+  <ng-template #missingData>
+    <ng-container *ngIf="!profile; else noEquipment">
+      <div class="c8y-empty-state text-center">
+        <h1 class="c8y-icon c8y-icon-atom c8y-icon-duocolor"></h1>
+        <h3>{{ 'OEE Profile not found' | translate }}</h3>
+        <p>{{ 'Equipment without an OEE-Profile can currently not be displayed.' | translate }}</p>
+      </div>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #noEquipment>
+    <div class="c8y-empty-state text-center">
+      <h1 class="c8y-icon c8y-icon-metering c8y-icon-duocolor"></h1>
+      <h3>{{ 'No equipment selected' | translate }}</h3>
+      <p>{{ 'Please select equipment using the widget-config.' | translate }}</p>
+    </div>
+  </ng-template>
+</ng-container>

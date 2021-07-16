@@ -1,0 +1,45 @@
+@border-color: var(
+  --input-border-color,
+  var(--component-input-border, var(--root-component-input-border, var(--gray-8, #ccd2d6)))
+);
+@bar-current-color: var(--component-color, var(--root-component-color, var(--gray-text, #333333)));
+@bar-target-color: @border-color;
+
+:host::after,
+.current,
+.target {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  max-width: 100%;
+  font-size: 0;
+  transition: width 0.25s ease-in-out;
+}
+
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+  min-width: 5em;
+  height: 0.66em;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    z-index: 0;
+    border: 1px solid @border-color;
+    pointer-events: none;
+  }
+}
+
+.current {
+  z-index: 2;
+  background-color: @bar-current-color;
+}
+
+.target {
+  z-index: 1;
+  background-color: @bar-target-color;
+}

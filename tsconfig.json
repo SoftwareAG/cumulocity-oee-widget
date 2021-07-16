@@ -1,0 +1,21 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["dom", "es2019"],
+    "resolveJsonModule": true,
+    "paths": {
+      "@models/*": ["./src/models/*"],
+      "@services/*": ["./src/services/*"],
+      "@constants/*": ["./src/constants/*"]
+    }
+  }
+}

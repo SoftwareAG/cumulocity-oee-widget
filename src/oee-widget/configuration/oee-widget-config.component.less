@@ -1,0 +1,23 @@
+c8y-loading {
+  display: block;
+  position: relative;
+
+  ::ng-deep {
+    .d-inline-block {
+      position: static;
+    }
+
+    .spinner {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.app-version {
+  display: block;
+  margin-top: 2em;
+  opacity: 0.5;
+  text-align: center;
+}

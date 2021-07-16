@@ -1,0 +1,99 @@
+<ng-form #configForm="ngForm" class="form-group">
+  <!-- select site/area/line/machine -->
+  <c8y-form-group>
+    <label for="device">{{ 'Calculation Profile' | translate }}</label>
+
+    <c8y-loading *ngIf="loadingProfiles"></c8y-loading>
+
+    <ng-container *ngIf="!loadingProfiles">
+      <div *ngIf="profileOptions; else noOptions" class="c8y-select-wrapper">
+        <select name="profile" id="profile" [(ngModel)]="config.profileId" (change)="setProfile()" required>
+          <optgroup *ngFor="let group of profileOptions" label="{{ group.label }}">
+            <option
+              *ngFor="let p of group.profiles"
+              [disabled]="p.type === 'Area' || p.type === 'Site'"
+              value="{{ p.id }}"
+            >
+              {{ p.deviceName }} - {{ p.name }}
+            </option>
+          </optgroup>
+        </select>
+      </div>
+
+      <ng-template #noOptions>
+        <div class="alert alert-danger" role="alert">
+          <strong>{{ 'No Profiles available.' | translate }}</strong>
+        </div>
+      </ng-template>
+    </ng-container>
+  </c8y-form-group>
+
+  <!-- interval -->
+  <c8y-form-group>
+    <label for="updateinterval" translate>{{ 'Update Interval' | translate }}</label>
+
+    <c8y-loading *ngIf="loadingProfiles"></c8y-loading>
+
+    <div *ngIf="!loadingProfiles" class="c8y-select-wrapper">
+      <select
+        name="updateinterval-unit"
+        class="form-control"
+        required
+        [disabled]="!config.profileId"
+        [(ngModel)]="config.interval"
+      >
+        <option *ngFor="let interval of intervals" value="{{ interval.value }}">
+          {{ interval.label }}
+        </option>
+      </select>
+    </div>
+  </c8y-form-group>
+
+  <!-- details -->
+  <c8y-form-group>
+    <label class="c8y-switch">
+      <input
+        type="checkbox"
+        name="showDetails"
+        id="showDetails"
+        [disabled]="!config.profileId"
+        [(ngModel)]="config.showDetails"
+      />
+      <span></span>
+      {{ 'Show Details' | translate }}
+    </label>
+    <small>Hiding the details will also hide the chart.</small>
+  </c8y-form-group>
+
+  <!-- chart -->
+  <c8y-form-group>
+    <label class="c8y-switch">
+      <input
+        type="checkbox"
+        name="showChart"
+        id="showChart"
+        [disabled]="!config.profileId || !config.showDetails"
+        [(ngModel)]="config.showChart"
+      />
+      <span></span>
+      {{ 'Show Chart' | translate }}
+    </label>
+  </c8y-form-group>
+
+  <!-- timer -->
+  <c8y-form-group>
+    <label class="c8y-switch">
+      <input
+        type="checkbox"
+        name="showCountdown"
+        id="showCountdown"
+        [disabled]="!config.profileId"
+        [(ngModel)]="config.showCountdown"
+      />
+      <span></span>
+      {{ 'Show Update Countdown' | translate }}
+    </label>
+  </c8y-form-group>
+
+  <small class="app-version">OEE Widget v{{ appVersion }}</small>
+</ng-form>

@@ -1,0 +1,25 @@
+// no branding-configs available
+@trend-up-color: #080;
+@trend-down-color: #e0000e;
+
+:host {
+  display: inline-block;
+}
+
+i {
+  transform: rotateX(90deg);
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+
+  &.trend-up {
+    color: @trend-up-color;
+    transform: rotateX(0);
+    opacity: 1;
+  }
+
+  &.trend-down {
+    color: @trend-down-color;
+    transform: rotateX(180deg);
+    opacity: 1;
+  }
+}
