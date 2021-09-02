@@ -131,6 +131,7 @@ export class OEEWidgetService {
 
   fetchLatestMeasurementByType(id: string, type: OeeMeasurementType): Promise<void | OeeMeasurement> {
     const dateFrom = new Date();
+    dateFrom.setDate(-3);
     dateFrom.setHours(0, 0, 0, 0);
 
     return this.measurementService
