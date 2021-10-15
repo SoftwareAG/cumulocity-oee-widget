@@ -137,7 +137,7 @@ export class OEEWidgetService {
     return this.measurementService
       .list({
         source: id,
-        type,
+        valueFragmentType: type,
         dateFrom: dateFrom.toISOString(),
         pageSize: 1,
         withTotalPages: false,
