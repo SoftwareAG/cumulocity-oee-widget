@@ -64,24 +64,29 @@ export class OEEWidgetComponent implements OnInit, OnDestroy {
         for (let measure of measurements) {
           let key = this.oeeService.intervalToString(this.config.interval);
 
-          if (measure && measure[measure.fragmentType] && measure[measure.fragmentType][key]) {
-            let value = measure[measure.fragmentType][key].value;
-
-            switch (measure.fragmentType) {
-              case OeeMeasurementType.OEE:
-                this.aggregatedOee = this.setOeeDisplayData(this.aggregatedOee, value);
-                break;
-              case 'Availability':
-              case 'Performance':
-              case 'Quality':
-                this.oeeDetails.map((detail) => {
-                  if (detail.title === measure.fragmentType) {
-                    detail = this.setOeeDisplayData(detail, value);
-                  }
-                });
-                break;
+          for (let fragmentType in OeeMeasurementType) {
+            let oeeMeasurementType = OeeMeasurementType[fragmentType];
+            
+            if (measure && measure[oeeMeasurementType] && measure[oeeMeasurementType][key]) {
+              let value = measure[oeeMeasurementType][key].value;
+  
+              switch (oeeMeasurementType) {
+                case OeeMeasurementType.OEE:
+                  this.aggregatedOee = this.setOeeDisplayData(this.aggregatedOee, value);
+                  break;
+                case OeeMeasurementType.AVAILABILITY:
+                case OeeMeasurementType.PERFORMANCE:
+                case OeeMeasurementType.QUALITY:
+                  this.oeeDetails.map((detail) => {
+                    if (detail.title === oeeMeasurementType) {
+                      detail = this.setOeeDisplayData(detail, value);
+                    }
+                  });
+                  break;
+              }
             }
           }
+
         }
       },
       (err) => {
