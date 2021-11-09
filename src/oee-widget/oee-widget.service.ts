@@ -113,6 +113,7 @@ export class OEEWidgetService {
   fetchLatestMeasurements(id: string): Promise<OeeMeasurement[]> {
     return Promise.all([
       this.fetchLatestMeasurementByType(id, OeeMeasurementType.OEE),
+      //COE-417: once the OEE10.10Fix1 is deployed, we could remove the 3 calls below b/c all relevant measurement fragments are part of each OEE measurement
       this.fetchLatestMeasurementByType(id, OeeMeasurementType.AVAILABILITY),
       this.fetchLatestMeasurementByType(id, OeeMeasurementType.PERFORMANCE),
       this.fetchLatestMeasurementByType(id, OeeMeasurementType.QUALITY)
@@ -137,7 +138,7 @@ export class OEEWidgetService {
     return this.measurementService
       .list({
         source: id,
-        type,
+        valueFragmentType: type,
         dateFrom: dateFrom.toISOString(),
         pageSize: 1,
         withTotalPages: false,
