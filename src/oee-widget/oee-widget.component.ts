@@ -59,11 +59,11 @@ export class OEEWidgetComponent implements OnInit, OnDestroy {
   }
 
   private updateOee(): void {
-    this.oeeService.fetchLatestMeasurements(this.profile.id).then(
+
+    let key = this.oeeService.intervalToString(this.config.interval);
+    this.oeeService.fetchLatestMeasurements(this.profile.id, key).then(
       (measurements) => {
         for (let measure of measurements) {
-          let key = this.oeeService.intervalToString(this.config.interval);
-
           for (let fragmentType in OeeMeasurementType) {
             let oeeMeasurementType = OeeMeasurementType[fragmentType];
             
