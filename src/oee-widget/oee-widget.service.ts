@@ -50,13 +50,13 @@ export class OEEWidgetService {
   }
 
   private convertProfiles(mos: IManagedObject[]): OeeProfile[] {
-    const profiles: OeeProfile[] = [];
-
-    for (let mo of mos) {
-      profiles.push(new OeeProfile(mo));
-    }
-
-    return profiles;
+    return mos.flatMap(mo => {
+      try {
+        return [new OeeProfile(mo)];
+      } catch(error) {
+        return [];
+      }
+    });
   }
 
   fetchProfiles(): Promise<void | OeeProfile[]> {
